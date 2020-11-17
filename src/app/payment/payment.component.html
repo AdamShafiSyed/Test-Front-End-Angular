@@ -1,0 +1,27 @@
+<div class="container">
+    <form [formGroup]="paymentForm" class="payment-form">
+        <div class="group">
+            <label for="creditCardNumber">CreditCardNumber</label>
+            <input type="text" formControlName="creditCardNumber" name="creditCardNumber" id="creditCardNumber">
+        </div>
+        <div class="group">
+            <label for="cardholder">Cardholder</label>
+            <input type="text" formControlName="cardholder" name="cardholder" id="cardholder">
+        </div>
+        <div class="group">
+            <label for="expirationDate">ExpirationDate</label>
+            <input type="date" min="{{minDate}}" formControlName="expirationDate" name="expirationDate" id="expirationDate">
+        </div>
+        <div class="group">
+            <label for="securityCode">SecurityCode</label>
+            <input type="text" formControlName="securityCode" minlength="3" maxlength="3" name="securityCode" id="securityCode">
+        </div>
+        <div class="group">
+            <label for="amount">Amount</label>
+            <input type="number" formControlName="amount" name="amount" id="amount">
+        </div>
+        <div class="pay-btn-div">
+            <button class="pay-btn" type="submit" (click)="doPayment()" [disabled]="!paymentForm.valid">Pay Now</button>
+        </div>
+    </form>
+</div>
