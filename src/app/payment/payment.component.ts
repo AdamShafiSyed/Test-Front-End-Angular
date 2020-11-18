@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { PaymentService } from '../services/payment.service';
 
 @Component({
@@ -12,6 +13,8 @@ minDate = this.getMinDate().toString();
 maxDate = new Date();
 paymentForm: FormGroup;
 pastDate: boolean;
+paymentSuccess: boolean = false;
+private subscriptions: Subscription = new Subscription();
   constructor(private fb: FormBuilder, private paymentService: PaymentService) { }
 
   ngOnInit(): void {
@@ -27,10 +30,14 @@ pastDate: boolean;
   }
 
   doPayment(): void {
-    this.paymentService.payment(this.paymentForm.value).subscribe(res => {
-      // console.log('res', res);
-      this.paymentForm.reset();
-    });
+    this.subscriptions.add(
+      this.paymentService.payment(this.paymentForm.value).subscribe(res => {
+        if(res) {
+          this.paymentSuccess = true;
+        }
+        this.paymentForm.reset();
+      })
+    )
   }
 
   getMinDate(): string {
@@ -39,6 +46,7 @@ pastDate: boolean;
 
   ngOnDestroy(): void {
     sessionStorage.clear();
+    this.subscriptions.unsubscribe();
   }
 
   dateSelected(event: { target: { value: string; } }): void {

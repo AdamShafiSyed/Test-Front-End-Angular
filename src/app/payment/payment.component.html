@@ -76,5 +76,9 @@
         <div class="pay-btn-div">
             <button class="pay-btn" type="submit" (click)="doPayment()" [disabled]="!paymentForm.valid">Pay Now</button>
         </div>
+        <p *ngIf="paymentSuccess" style="color: green;
+        text-align: center;
+        font-weight: bold;
+        padding: 10px;">you have successfully completed your transaction :)</p>
     </form>
 </div>
