@@ -15,14 +15,12 @@
 }
 
 .group {
-    line-height: 41px;
     width: inherit;
     padding: 5px 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
-    font-size: 20px;
 }
 
 input {
@@ -50,4 +48,13 @@ input {
 
 .pay-btn:disabled {
     opacity: 0.5;
+}
+
+.alert-danger {
+    font-size: 15px;
+    color: red;
+}
+
+.sub-group{
+    width: 208px;
 }

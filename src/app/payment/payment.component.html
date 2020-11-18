@@ -2,23 +2,76 @@
     <form [formGroup]="paymentForm" class="payment-form">
         <div class="group">
             <label for="creditCardNumber">CreditCardNumber</label>
-            <input type="text" formControlName="creditCardNumber" name="creditCardNumber" id="creditCardNumber">
+            <div class="sub-group">
+                <input type="text" formControlName="creditCardNumber" name="creditCardNumber" id="creditCardNumber" required>
+                    <div *ngIf="paymentForm.controls.creditCardNumber.invalid && (paymentForm.controls.creditCardNumber.dirty || paymentForm.controls.creditCardNumber.touched)"
+                class="alert alert-danger">
+
+            <div *ngIf="paymentForm.controls.creditCardNumber.errors.required">
+                CreditCardNumber is required.
+            </div>
+            </div>
+            </div>
         </div>
         <div class="group">
             <label for="cardholder">Cardholder</label>
-            <input type="text" formControlName="cardholder" name="cardholder" id="cardholder">
+            <div class="sub-group">
+                <input type="text" formControlName="cardholder" name="cardholder" id="cardholder" required>
+                <div *ngIf="paymentForm.controls.cardholder.invalid && (paymentForm.controls.cardholder.dirty || paymentForm.controls.cardholder.touched)"
+                class="alert alert-danger">
+
+            <div *ngIf="paymentForm.controls.cardholder.errors.required">
+                Cardholder is required.
+            </div>
+            </div>
+            </div>
         </div>
         <div class="group">
             <label for="expirationDate">ExpirationDate</label>
-            <input type="date" min="{{minDate}}" formControlName="expirationDate" name="expirationDate" id="expirationDate">
+            <div class="sub-group">
+                <input type="date" style="width: 100%;" (change)="dateSelected($event)" min="{{minDate}}" formControlName="expirationDate" name="expirationDate" id="expirationDate" required>
+                <div *ngIf="pastDate"  class="alert alert-danger">
+                    ExpirationDate can not be in the past.
+                </div>
+                <div *ngIf="paymentForm.controls.expirationDate.invalid && (paymentForm.controls.expirationDate.dirty || paymentForm.controls.expirationDate.touched)"
+                class="alert alert-danger">
+                <div *ngIf="paymentForm.controls.expirationDate.errors.required">
+                    ExpirationDate is mandatory.
+                </div>
+            </div>
+            </div>
         </div>
         <div class="group">
             <label for="securityCode">SecurityCode</label>
-            <input type="text" formControlName="securityCode" minlength="3" maxlength="3" name="securityCode" id="securityCode">
+            <div class="sub-group">
+                <input type="text" formControlName="securityCode" minlength="3" maxlength="3" name="securityCode" id="securityCode">
+                <div *ngIf="paymentForm.controls.securityCode.invalid && (paymentForm.controls.securityCode.dirty || paymentForm.controls.securityCode.touched)"
+                class="alert alert-danger">
+                <div *ngIf="paymentForm.controls.securityCode.errors.minlength">
+                    SecurityCode can only have 3 characters.
+                </div>
+            <div *ngIf="paymentForm.controls.securityCode.errors.maxlength">
+                SecurityCode can only have 3 characters.
+            </div>
+            </div>
+            </div>
         </div>
         <div class="group">
             <label for="amount">Amount</label>
-            <input type="number" formControlName="amount" name="amount" id="amount">
+            <div class="sub-group">
+                <input type="number" formControlName="amount" name="amount" id="amount" required>
+                <div *ngIf="paymentForm.controls.amount.invalid && (paymentForm.controls.amount.dirty || paymentForm.controls.amount.touched)"
+                class="alert alert-danger">
+
+            <div *ngIf="paymentForm.controls.amount.errors.required">
+                Amount is required.
+            </div>
+
+            <div *ngIf="paymentForm.controls.amount.errors.min">
+                Amount can not be 0.
+            </div>
+            </div>
+            </div>
         </div>
         <div class="pay-btn-div">
             <button class="pay-btn" type="submit" (click)="doPayment()" [disabled]="!paymentForm.valid">Pay Now</button>

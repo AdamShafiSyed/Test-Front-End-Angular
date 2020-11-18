@@ -11,6 +11,7 @@ export class PaymentComponent implements OnInit {
 minDate = this.getMinDate().toString();
 maxDate = new Date();
 paymentForm: FormGroup;
+pastDate: boolean;
   constructor(private fb: FormBuilder, private paymentService: PaymentService) { }
 
   ngOnInit(): void {
@@ -22,7 +23,7 @@ paymentForm: FormGroup;
       amount: ['', Validators.compose([Validators.required, Validators.min(1)])]
     });
 
-    this.paymentForm.controls['expirationDate'].setValue(this.getMinDate().toString())
+    this.paymentForm.controls['expirationDate'].setValue(null)
   }
 
   doPayment(): void {
@@ -36,8 +37,18 @@ paymentForm: FormGroup;
     return new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     sessionStorage.clear();
+  }
+
+  dateSelected(event: { target: { value: string; } }): void {
+    let dateStrings = event.target.value.split('-');
+    let date = new Date(+dateStrings[0], +dateStrings[1]-1, +dateStrings[2]);
+    if(date.getTime() <= new Date().getTime()) {
+      this.pastDate = true;
+    } else {
+      this.pastDate = false;
+    }
   }
 
 }
